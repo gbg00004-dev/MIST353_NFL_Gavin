@@ -1,9 +1,9 @@
 -- Create a database for NFL app
---use master;
+use master;
 
---CREATE DATABASE MIST#%#_NFL_RDB_Lastname;
+--CREATE DATABASE MIST353_NFL_RDB_Lastname;
 
-use MIST353_NFL_RDB_Lastname;
+USE MIST353_NFL_Lastname;
 
 -- Create tables for first iteration
 create TABLE ConferenceDivision (
