@@ -1,35 +1,37 @@
 USE master;
-
-Create login APILogin
-WITH PASSWORD = 'MI$T353Instructor';
-
-use MIST353_NFL_Gavin;
-
-Create user APIUser
-For Login APILogin;
-
-Grant Execute to APIUser;
-
-Grant Select to APIUser;
-
-
-
-
-GO
-create or alter procedure procGetTeamsByConferenceDivision
-(
-    @Conference varchar(50) = NULL,
-    @Division varchar(50) = NULL
-)
-AS
+IF NOT EXISTS (SELECT * FROM sys.server_principals WHERE name = 'APILogin')
 BEGIN
-    SELECT t.TeamID, t.Team_Name, t.City, t.Colors, t.Logo, cd.Conference, cd.Division
-    FROM Team t
-    INNER JOIN ConferenceDivision cd ON t.ConferenceDivisionID = cd.ConferenceDivisionID
-    WHERE (@Conference IS NULL OR cd.Conference = @Conference)
-      AND (@Division IS NULL OR cd.Division = @Division)
-
+    CREATE LOGIN APILogin WITH PASSWORD = 'MI$T353Instructor';
 END
-
 GO
+
+-- 2. Create database if it doesn't exist
+IF DB_ID('MIST353_NFL_Gavin') IS NULL
+BEGIN
+    CREATE DATABASE MIST353_NFL_Gavin;
+END
+GO
+
+-- 3. Switch to the database
+USE MIST353_NFL_Gavin;
+GO
+
+-- 4. Create database user if it doesn't exist
+IF NOT EXISTS (SELECT * FROM sys.database_principals WHERE name = 'APIUser')
+BEGIN
+    CREATE USER APIUser FOR LOGIN APILogin;
+END
+GO
+
+-- 5. Grant permissions
+GRANT EXECUTE TO APIUser;
+GRANT SELECT TO APIUser;
+GO
+
+
+
+
+
+
+
 
