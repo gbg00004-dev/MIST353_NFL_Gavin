@@ -1,4 +1,4 @@
-from get_db_connection import get_db_connection
+from .get_db_connection import get_db_connection
 
 def get_teams_by_conference_division(
         conference:str =None,
@@ -7,15 +7,15 @@ def get_teams_by_conference_division(
     ):
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute( "(call procGetTeamsByConferenceDivision(?, ?))", (conference, division) )
+    cursor.execute( "EXEC procGetTeamsByConferenceDivision ?, ?", (conference, division) )
     rows = cursor.fetchall()
     conn.close()
 
     results = [
         {
-            "team_name": row.team_name,
-            "conference": row.conference,
-            "division": row.division
+            "team_name": row.Team_Name,
+            "conference": row.Conference,
+            "division": row.Division
         }
         for row in rows
     ]
