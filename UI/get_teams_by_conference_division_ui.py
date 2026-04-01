@@ -21,7 +21,7 @@ def get_teams_by_conference_division_ui():
             # Expand the "data" column into separate columns
             df = pd.json_normalize(df["data"])
 
-            # Rename to match professor screenshot
+            
             df = df.rename(columns={
                 "team_name": "TeamName",
                 "conference": "Conference",

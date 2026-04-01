@@ -26,7 +26,7 @@ def get_teams_in_same_conference_division_as_specified_team_ui():
                 "division": "Division"
             })
 
-            # 🔥 Remove the team the user typed
+            
             df = df[df["TeamName"].str.lower() != team_name.lower()]
 
             st.table(df[["TeamName", "Conference", "Division"]])
